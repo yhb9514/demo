@@ -3,7 +3,9 @@ package com.yang.demo.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yang.demo.persistence.dto.CharacterDto;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +21,12 @@ import java.util.List;
 @Slf4j
 public class CharacterController {
 
+    @Value("${key}")
+    private String key;
+
     @GetMapping("/test")
     public List<CharacterDto> apiTest() {
+
 
         List<CharacterDto> characterDtoList = new ArrayList<>();
 
@@ -28,7 +34,6 @@ public class CharacterController {
             String name = "양모뉙";
             name = URLEncoder.encode(name, "UTF-8");
             String testUrl = "https://developer-lostark.game.onstove.com/characters/" + name +"/siblings";
-            String key = "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyIsImtpZCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyJ9.eyJpc3MiOiJodHRwczovL2x1ZHkuZ2FtZS5vbnN0b3ZlLmNvbSIsImF1ZCI6Imh0dHBzOi8vbHVkeS5nYW1lLm9uc3RvdmUuY29tL3Jlc291cmNlcyIsImNsaWVudF9pZCI6IjEwMDAwMDAwMDAwNTc4MzQifQ.SA_WxD-6JDcSnJGa-0zIFm8rXpEXLa6JsK4ixvjaggbxnwTgpCsjC5R3ceHVsGjK1tan4c01iqb4-Uer7ADD_Mi6vzrTa-uPGVqXxIISxw_Cn2KFZwMNBgKSsoJpQYdY8hZQz-0atxzBTdutMXCDFvVIKNvPykqyk_QsyJ0dP2QE_acj1aDlnMphYRcagrSO82vUZzIqorUqyO7fODOFKSI5kTxMAqOQmigUF__bbZR0XnpxDoIIxeIFMC4JaoHyswG96ao4eSgtxQhQtaicYC2-c21TVQat0x_wlJUiBeSPa4vo4FZR-UBTwk5z-E0G3ENeQA0vzwtVC-L0EdgizA";
             URL url = new URL(testUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("authorization", key);
